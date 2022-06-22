@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 21 Jun 2022 pada 12.53
+-- Waktu pembuatan: 22 Jun 2022 pada 10.24
 -- Versi server: 10.4.24-MariaDB
 -- Versi PHP: 7.4.29
 
@@ -33,7 +33,8 @@ CREATE TABLE `keluhan` (
   `tiket` varchar(1000) NOT NULL,
   `keluhan` text NOT NULL,
   `alamat` text NOT NULL,
-  `status_code` int(1) NOT NULL DEFAULT 0
+  `status_code` int(1) NOT NULL DEFAULT 0,
+  `created_at` date NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -58,7 +59,7 @@ CREATE TABLE `user` (
 --
 
 INSERT INTO `user` (`id`, `nama`, `tel`, `email`, `password`, `role`, `is_active`, `created_at`) VALUES
-(9, 'Naveta Candra', '085311174928', 'naveta.cand@gmail.com', '25d55ad283aa400af464c76d713c07ad', 1, 1, '2022-06-21 15:17:10');
+(0, 'admin', '08123456789', 'admin@admin.id', '25d55ad283aa400af464c76d713c07ad', 1, 1, '2022-06-22 10:33:02')
 
 --
 -- Indexes for dumped tables
@@ -85,13 +86,13 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT untuk tabel `keluhan`
 --
 ALTER TABLE `keluhan`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
 
 --
 -- AUTO_INCREMENT untuk tabel `user`
 --
 ALTER TABLE `user`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
