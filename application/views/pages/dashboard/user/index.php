@@ -24,11 +24,26 @@
             </div>
         </div>
         <div class="col me-3 mb-3">
+            <div class="card bg-dark text-white user-card">
+                <div class="card-body">
+                    <div class="d-flex mb-2">
+                        <h3 class="card-title me-2">IP Address</h3>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="2rem" height="2rem" fill="#0D6EFD" viewBox="0 0 16 16">
+                            <path d="M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10zm0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6z" />
+                        </svg>
+                    </div>
+                    <div class="mt-2 ms-2">
+                        <h4 id="ip-addr">-</h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col me-3 mb-3">
             <div class="card bg-success text-white user-card">
                 <div class="card-body">
                     <div class="d-flex mb-2">
                         <h3 class="card-title me-2">Laporan Selesai</h3>
-                        <svg xmlns="http://www.w3.org/2000/svg" width="2rem" height="2rem" fill="#DC3545" viewBox="0 0 16 16">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="2rem" height="2rem" fill="#FFC107" viewBox="0 0 16 16">
                             <path d="M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2zm6 4c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 4.995A.905.905 0 0 1 8 4zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z" />
                         </svg>
                     </div>
@@ -58,3 +73,13 @@
         </div>
     </div>
 </div>
+<script>
+    (async function() {
+        try {
+            const ip = (await (await fetch('https://api.xteam.xyz/cekip')).json()).response || '-';
+            document.querySelector('#ip-addr').innerHTML = ip;
+        } catch (err) {
+            console.log(err);
+        }
+    })();
+</script>

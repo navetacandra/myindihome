@@ -15,6 +15,7 @@
             <?php } ?>
         </div>
     </div>
+    <h2 class="text-center text-uppercase mb-2">user manager</h2>
     <div class="table-container" style="overflow: auto;">
         <table class="table table-striped">
             <thead>
@@ -40,7 +41,7 @@
                 email: '<?= $user['email'] ?>',
                 role: '<?= $user['role'] ?>',
                 active: '<?= $user['is_active'] ?>'
-            }
+            },
         <?php endforeach; ?>
     ];
 
@@ -51,18 +52,18 @@
     <th class="align-center" scope="row">${i + 1}</th>
     <td class="align-center">${el.email}</td>
     <td>
-        <button class="btn btn-warning text-uppercase me-2" data-id="${el.user_id}" data-bs-toggle="modal" data-bs-target="#user_${el.user_id}Modal">edit</button>
+        <button class="btn btn-warning text-uppercase me-2" data-action="edit" data-id="editUser_${el.user_id}">edit</button>
     </td>
     <td>
-        <button class="btn btn-danger text-uppercase">delete</button>
+        <button class="btn btn-danger text-uppercase" onclick="deleteConfirm('${el.user_id}', '${el.email}')">delete</button>
     </td>
 </tr>`;
-        modal[`user_${el.user_id}`] = `<div class="modal fade" id="user_${el.user_id}Modal" tabindex="-1" aria-labelledby="user_${el.user_id}ModalLabel" aria-hidden="true">
+        modal[`editUser_${el.user_id}`] = `<div class="modal" id="editUser_${el.user_id}Modal" tabindex="-1" aria-labelledby="editUser_${el.user_id}ModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="user_${el.user_id}ModalLabel">Edit ${el.email}'s Profile</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <h5 class="modal-title" id="editUser_${el.user_id}ModalLabel">Edit ${el.email}'s Profile</h5>
+                <button type="button" class="btn-close" onclick="closeModal()" aria-label="Close"></button>
             </div>
             <div class="modal-body">
             <form action="<?= base_url('user-manager') ?>" method="post">
@@ -77,15 +78,15 @@
                     </li>
                     <li class="list-group-item">Nomor Telepon :
                         <br />
-                        <input type="tel" name="tel" id="tel" value="${el.tel}" class="form-control edit-input mt-2" minlength="10" maxlength="13" required />
+                        <input type="text" name="tel" id="tel" value="${el.tel}" class="form-control edit-input mt-2" minlength="10" maxlength="13" required />
                     </li>
                     <li class="list-group-item">Role Id :
                         <br />
-                        <input type="tel" name="role" id="role" value="${el.role}" class="form-control edit-input mt-2" minlength="1" maxlength="1" required />
+                        <input type="text" name="role" id="role" value="${el.role}" class="form-control edit-input mt-2" minlength="1" maxlength="1" required />
                     </li>
                     <li class="list-group-item">Active Status :
                         <br />
-                        <input type="tel" name="is_active" id="is_active" value="${el.active}" class="form-control edit-input mt-2" minlength="1" maxlength="1" required />
+                        <input type="text" name="is_active" id="is_active" value="${el.active}" class="form-control edit-input mt-2" minlength="1" maxlength="1" required />
                     </li>
                 </ul>
                 <div class="text-center mt-2">
@@ -94,13 +95,33 @@
             </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-secondary" onclick="closeModal()">Close</button>
             </div>
         </div>
     </div>
 </div>`;
 
         document.querySelector('#users_table').innerHTML += el1;
-    })
-    console.log(modal);
+    });
+
+    document.querySelectorAll('[data-action="edit"]').forEach(el => {
+        el.addEventListener('click', (e) => {
+            const mdl = modal[el.getAttribute('data-id')];
+            document.querySelector('#modal_container').innerHTML = mdl;
+            const current_modal = document.querySelector(`#${el.getAttribute('data-id')}Modal`);
+            (new bootstrap.Modal(current_modal, {})).show();
+        });
+    });
+
+    function deleteConfirm(id, email) {
+        const url = `<?= base_url('delete-user') ?>/${id}`;
+        if (confirm(`Apakah kamu yakin ingin menghapus user ${email}?`)) {
+            window.location = url;
+        }
+    }
+
+    function closeModal() {
+        document.querySelector(`.modal.show`).remove();
+        document.querySelector(`.modal-backdrop`).remove();
+    }
 </script>

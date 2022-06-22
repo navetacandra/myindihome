@@ -44,7 +44,7 @@
                                 <?= form_error('password2', '<small class="text-danger">', '</small>'); ?>
                             </div>
                         </div>
-                        <div class="mb-3">
+                        <div class="mb-3 text-end">
                             <button type="submit" class="btn btn-danger text-uppercase">register</button>
                         </div>
                     </form>
