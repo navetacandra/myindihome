@@ -132,14 +132,19 @@ class Auth extends CI_Controller
         } else {
             $available = $this->User_model->get_user_by_email($this->input->post('email'));
             if (!$available) {
-                $user_data = [
-                    'nama' => $this->input->post('nama'),
-                    'tel' => $this->input->post('tel'),
-                    'email' => $this->input->post('email'),
-                    'password' => md5($this->input->post('password1'))
-                ];
-                $this->User_model->create_user($user_data);
-                $this->session->set_flashdata('success_msg', 'Selamat! Akun Berhasil Dibuat.');
+                if ($this->User_model->get_user_by_phone($this->input->post('tel'))) {
+                    $this->session->set_flashdata('error_msg', 'Nomor Telpon Sudah Terdaftar!');
+                } else {
+                    $user_data = [
+                        'nama' => $this->input->post('nama'),
+                        'tel' => $this->input->post('tel'),
+                        'email' => $this->input->post('email'),
+                        'password' => md5($this->input->post('password1'))
+                    ];
+                    $this->User_model->create_user($user_data);
+                    $this->session->set_flashdata('success_msg', 'Selamat! Akun Berhasil Dibuat.');
+                }
+
                 redirect(base_url('login'));
             } else {
                 $this->session->set_flashdata('error_msg', 'Alamat Email Sudah Terdaftar!');
