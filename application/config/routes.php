@@ -63,3 +63,11 @@ $route['edit-profile'] = 'User/edit';
 
 // admin
 $route['user-manager'] = 'Admin/user_manager';
+$route['keluhan-manager'] = 'Admin/keluhan_manager';
+$route['delete-keluhan/(:any)'] = 'Admin/delete_keluhan/$1';
+$route['delete-user/(:any)'] = 'Admin/delete_user/$1';
+
+// Keluhan
+$route['buat-laporan'] = 'Keluhan/add';
+$route['riwayat-laporan'] = 'Keluhan/history';
+$route['keluhan/(:any)'] = 'Keluhan/detail/$1';
