@@ -24,10 +24,25 @@ class User_model extends CI_Model
         $this->refetch();
     }
 
+    public function delete_user($id)
+    {
+        $this->db->where('id', $id);
+        $this->db->delete('user');
+    }
+
     public function get_all_user()
     {
         $this->db->select('*');
         $this->db->from('user');
+        $query = $this->db->get();
+        return $query->result_array();
+    }
+
+    public function get_user_by_id($id)
+    {
+        $this->db->select('*');
+        $this->db->from('user');
+        $this->db->where('id', $id);
         $query = $this->db->get();
         return $query->result_array();
     }
@@ -37,6 +52,15 @@ class User_model extends CI_Model
         $this->db->select('*');
         $this->db->from('user');
         $this->db->where('email', $email);
+        $query = $this->db->get();
+        return $query->row_array();
+    }
+
+    public function get_user_by_phone($phone)
+    {
+        $this->db->select('*');
+        $this->db->from('user');
+        $this->db->where('tel', $phone);
         $query = $this->db->get();
         return $query->row_array();
     }
