@@ -41,12 +41,19 @@ class User extends CI_Controller
             if ($this->input->post('nama') == $this->session->userdata('nama') && $this->input->post('tel') == $this->session->userdata('tel')) {
                 $this->session->set_flashdata('error_msg', 'Tidak Ada Perubahan Akun!');
             } else {
-                $data = [
-                    'nama' => $this->input->post('nama'),
-                    'tel' => $this->input->post('tel')
-                ];
-                $this->User_model->update_user($this->session->userdata('email'), $data);
-                $this->session->set_flashdata('success_msg', 'Berhasil Merubah Info Akun!');
+                $isDeletedUser = !$this->User_model->get_user_by_email($this->session->userdata('email'));
+                $phone_available = !$this->User_model->get_user_by_phone($this->input->post('tel'));
+                $phone_find = $this->User_model->get_user_by_phone($this->input->post('tel'));
+                if ($phone_available && $phone_find['email'] == $this->session->userdata('email')) {
+                    $data = [
+                        'nama' => $this->input->post('nama'),
+                        'tel' => $this->input->post('tel')
+                    ];
+                    $this->User_model->update_user($this->session->userdata('email'), $data);
+                    $this->session->set_flashdata('success_msg', 'Berhasil Merubah Info Akun!');
+                } else {
+                    $this->session->set_flashdata('error_msg', 'Nomor Telepon Sudah Terdaftar!');
+                }
             }
             redirect(base_url('edit-profile'));
         }
